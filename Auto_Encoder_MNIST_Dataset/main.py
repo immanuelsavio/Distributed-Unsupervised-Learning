@@ -46,3 +46,10 @@ print(np.max(x_test), np.max(x_train))
 
 train_x, valid_x, train_ground, test_ground = train_test_split(x_train, x_train, test_size = 0.2, random_state = 12)
 print(train_x.shape, valid_x.shape)
+
+batch_size = 64
+epochs = 200
+inChannel = 1
+x, y = 28, 28
+input_img = Input(shape = (x, y, inChannel))
+num_classes = 10
