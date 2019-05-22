@@ -1,2 +1,2 @@
-# Stochastic_Gradient_Descent
-A test repository to try out stochastic gradient descent
+# ISI_Internship_Codes
+A repository containing all codes done during my internship in the Machine Intelligence Unit of The Indian Statistical Institute, Kolkata
