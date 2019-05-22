@@ -10,6 +10,7 @@ from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D
 from keras.models import Model
 from keras.datasets import fashion_mnist
 from keras.optimizers import RMSprop
+from sklearn.model_selection import train_test_split
 
 #def data_reading():
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
@@ -33,3 +34,15 @@ x_train = x_train.reshape(-1,28,28,1)
 x_test = x_test.reshape(-1,28,28,1)
 print(x_train.shape)
 print(x_test.shape)
+
+print(np.max(x_train))
+print(np.max(x_test))
+
+''' scaling it in the range of 0 - 1 by dividing it with the maximum'''
+x_train = x_train/np.max(x_train)
+x_test = x_test/np.max(x_test)
+
+print(np.max(x_test), np.max(x_train))
+
+train_x, valid_x, train_ground, test_ground = train_test_split(x_train, x_train, test_size = 0.2, random_state = 12)
+print(train_x.shape, valid_x.shape)
