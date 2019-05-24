@@ -8,13 +8,14 @@ import numpy as np
 import gzip
 from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D
 from keras.models import Model
-from keras.datasets import fashion_mnist
+from keras.datasets import mnist
+from keras.utils import to_categorical 
 from keras.layers.normalization import BatchNormalization
 from keras.optimizers import RMSprop
 from sklearn.model_selection import train_test_split
 
 #def data_reading():
-(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
 print(x_train.shape, x_test.shape)
 #data_reading()
 
