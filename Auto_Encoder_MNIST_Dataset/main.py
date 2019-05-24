@@ -11,7 +11,7 @@ from keras.models import Model
 from keras.datasets import mnist
 from keras.utils import to_categorical 
 from keras.layers.normalization import BatchNormalization
-from keras.optimizers import RMSprop
+from keras.optimizers import SGD
 from sklearn.model_selection import train_test_split
 
 #def data_reading():
@@ -98,7 +98,7 @@ def decoder(conv4):
     return decoded
 
 autoencoder = Model(input_img, decoder(encoder(input_img)))
-autoencoder.compile(loss='mean_squared_error', optimizer = RMSprop())
+autoencoder.compile(loss='mean_squared_error', optimizer = SGD(lr=0.01, decay=0.1, momentum=0.1, nesterov=False))
 autoencoder.summary()
 autoencoder_train = autoencoder.fit(train_x, 
                                     train_ground, 
