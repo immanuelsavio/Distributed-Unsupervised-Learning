@@ -7,6 +7,6 @@ A repository containing all codes done during my internship in the Machine Intel
 (22.05.19) - Day 3 - AutoEncoders - Basics and Theory <br />
 (23.05.19) - Day 4 - AutoEncoder classifier for MNIST dataset <br />
 (24.05.19) - Day 5 - Using Mini Batch SGD for AutoEncoder classifier for MNIST dataset and Keras <br />
-(25.05.19) - Day 6 - Understanding AutoEncoder Implimentation with Tensorflow
-(26.05.19) - Day 7 - Reading papers to understand Distributed Deep Learning using Tensorflow
-(27.05.19) - Day 8 - Implimenting AutoEncoder to classify MNIST using only TensorFlow
+(25.05.19) - Day 6 - Understanding AutoEncoder Implimentation with Tensorflow<br />
+(26.05.19) - Day 7 - Reading papers to understand Distributed Deep Learning using Tensorflow<br />
+(27.05.19) - Day 8 - Implimenting AutoEncoder to classify MNIST using only TensorFlow<br />
