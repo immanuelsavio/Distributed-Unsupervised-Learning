@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 import tensorflow.examples.tutorials.mnist.input_data as input_data
 
+session = tf.Session()
 df = input_data.read_data_sets("MNIST_data", one_hot=True)
 
 num_inputs = 784
@@ -59,5 +60,15 @@ prediction = decoder_fun
 actual = X
 
 cost_fun = tf.reduce_mean(tf.pow(actual - prediction, 2))
-optim = tf.train.RMS
+optim = tf.train.GradientDescentOptimizer(learning_rate)
+train_step = optim.minimize(cost_fun)
 
+loss_batch = []
+for i in range(0,num_steps):
+    rand_index = np.random.choice(100, batch_size)
+    x_batch = 
+
+
+
+init = tf.global_variables_initializer()
+sess.run(init)
