@@ -72,3 +72,4 @@ for i in range(0,num_steps):
 
 init = tf.global_variables_initializer()
 sess.run(init)
+
