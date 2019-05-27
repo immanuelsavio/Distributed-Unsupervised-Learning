@@ -16,7 +16,7 @@ X = tf.placeholder("float", shape = [None,num_inputs])
 #Necessary inputs
 batch_size = 64
 num_steps = 40000
-learning_rate = 0.001
+learning_rate = 5e-1
 display_step = 1000
 
 def encoder_layer(x):
@@ -24,7 +24,7 @@ def encoder_layer(x):
     l1 = tf.add(l1,b["b1"])
     l1 = tf.nn.sigmoid(l1)
 
-    l1 = tf.matmul(x, W["w2"])
+    l1 = tf.matmul(l1, W["w2"])
     l1 = tf.add(l1,b["b2"])
     l1 = tf.nn.sigmoid(l1)
 
@@ -35,7 +35,7 @@ def decoder_layer(x):
     l2 = tf.add(l2,b["b3"])
     l2 = tf.nn.sigmoid(l2)
 
-    l2 = tf.matmul(x, W["w4"])
+    l2 = tf.matmul(l2, W["w4"])
     l2 = tf.add(l2,b["b4"])
     l2 = tf.nn.sigmoid(l2)
 
@@ -57,4 +57,7 @@ decoder_fun = decoder_layer(encoder_fun)
 
 prediction = decoder_fun
 actual = X
+
+cost_fun = tf.reduce_mean(tf.pow(actual - prediction, 2))
+optim = tf.train.RMS
 
