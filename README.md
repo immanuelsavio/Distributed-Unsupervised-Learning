@@ -10,4 +10,4 @@ A repository containing all codes done during my internship in the Machine Intel
 (25.05.19) - Day 6 - Understanding AutoEncoder Implimentation with Tensorflow<br />
 (26.05.19) - Day 7 - Reading papers to understand Distributed Deep Learning using Tensorflow<br />
 (27.05.19) - Day 8 - Implimenting AutoEncoder to classify MNIST using only TensorFlow<br />
-(28.05.19) - Day 9 - Distribution of data over Tensorflow Clusters and creating mini-batches and trying different types of     &nbsp                Stochastic Gradient Descents for the clusters<br />
+(28.05.19) - Day 9 - Distribution of data over Tensorflow Clusters and creating mini-batches and trying different types of     {nbsp}+                Stochastic Gradient Descents for the clusters<br />
