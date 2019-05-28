@@ -5,6 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.contrib.layers import fully_connected
+from keras.optimizers.sgd import sgd
 
 mnist=input_data.read_data_sets("/MNIST_data/",one_hot=True)
 
@@ -38,7 +39,7 @@ output_layer=actf(tf.matmul(hid_layer3,w4)+b4)
 
 loss=tf.reduce_mean(tf.square(output_layer-X))
 
-optimizer=tf.train.AdamOptimizer(lr)
+optimizer = keras.optimizer.sg
 train=optimizer.minimize(loss)
 
 init=tf.global_variables_initializer()

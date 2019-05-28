@@ -62,14 +62,3 @@ actual = X
 cost_fun = tf.reduce_mean(tf.pow(actual - prediction, 2))
 optim = tf.train.GradientDescentOptimizer(learning_rate)
 train_step = optim.minimize(cost_fun)
-
-loss_batch = []
-for i in range(0,num_steps):
-    rand_index = np.random.choice(100, batch_size)
-    x_batch = 
-
-
-
-init = tf.global_variables_initializer()
-sess.run(init)
-
