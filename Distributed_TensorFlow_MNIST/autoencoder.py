@@ -32,86 +32,64 @@ def plot_traincurve(history):
     plt.legend(loc='upper left', scatterpoints = 1, frameon=False)
 
 
-batch_size = 128
-num_classes = 10
-epochs = 30
-img_rows, img_cols = 28, 28
+def autoencoder():
+    batch_size = 128
+    num_classes = 10
+    epochs = 30
+    img_rows, img_cols = 28, 28
 
-# the data, split between train and test sets
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
+    # the data, split between train and test sets
+    (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
-x_train = x_train.reshape(60000, 784)
-x_test = x_test.reshape(10000, 784)
-x_train = x_train.astype('float32')
-x_test = x_test.astype('float32')
-x_train /= 255
-x_test /= 255
-print(x_train.shape[0], 'train samples')
-print(x_test.shape[0], 'test samples')
+    x_train = x_train.reshape(60000, 784)
+    x_test = x_test.reshape(10000, 784)
+    x_train = x_train.astype('float32')
+    x_test = x_test.astype('float32')
+    x_train /= 255
+    x_test /= 255
+    print(x_train.shape[0], 'train samples')
+    print(x_test.shape[0], 'test samples')
 
-# convert class vectors to binary class matrices
-y_train = keras.utils.to_categorical(y_train, num_classes)
-y_test = keras.utils.to_categorical(y_test, num_classes)
+    # convert class vectors to binary class matrices
+    y_train = keras.utils.to_categorical(y_train, num_classes)
+    y_test = keras.utils.to_categorical(y_test, num_classes)
 
-# this is the size of our encoded representations
-encoding_dim = 32  
+    # this is the size of our encoded representations
+    encoding_dim = 32  
 
-# this is our input placeholder
-input_img = Input(shape=(784,))
-# "encoded" is the encoded representation of the input
-encoded = Dense(encoding_dim, activation='relu')(input_img)
-# "decoded" is the lossy reconstruction of the input
-decoded = Dense(784, activation='sigmoid')(encoded)
+    # this is our input placeholder
+    input_img = Input(shape=(784,))
+    # "encoded" is the encoded representation of the input
+    encoded = Dense(encoding_dim, activation='relu')(input_img)
+    # "decoded" is the lossy reconstruction of the input
+    decoded = Dense(784, activation='sigmoid')(encoded)
 
-# this model maps an input to its reconstruction
-autoencoder = Model(input_img, decoded)
+    # this model maps an input to its reconstruction
+    autoencoder = Model(input_img, decoded)
 
-# this model maps an input to its encoded representation
-encoder = Model(input_img, encoded)
+    # this model maps an input to its encoded representation
+    encoder = Model(input_img, encoded)
 
-# create a placeholder for an encoded (32-dimensional) input
-encoded_input = Input(shape=(encoding_dim,))
-# retrieve the last layer of the autoencoder model
-decoder_layer = autoencoder.layers[-1]
-# create the decoder model
-decoder = Model(encoded_input, decoder_layer(encoded_input))
+    # create a placeholder for an encoded (32-dimensional) input
+    encoded_input = Input(shape=(encoding_dim,))
+    # retrieve the last layer of the autoencoder model
+    decoder_layer = autoencoder.layers[-1]
+    # create the decoder model
+    decoder = Model(encoded_input, decoder_layer(encoded_input))
 
-autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+    autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
 
-history = autoencoder.fit(x_train, x_train,
-                epochs=30,
-                batch_size=256,
-                shuffle=True,
-                validation_data=(x_test, x_test))
-plot_traincurve(history.history)
+    history = autoencoder.fit(x_train, x_train,
+                    epochs=30,
+                    batch_size=256,
+                    shuffle=True,
+                    validation_data=(x_test, x_test))
+    plot_traincurve(history.history)
 
-encoded_imgs_train = encoder.predict(x_train)
-encoded_imgs_test = encoder.predict(x_test)
-decoded_imgs = decoder.predict(encoded_imgs_test)
+    encoded_imgs_train = encoder.predict(x_train)
+    encoded_imgs_test = encoder.predict(x_test)
+    decoded_imgs = decoder.predict(encoded_imgs_test)
 
-encoded_imgs_train_normalized = encoded_imgs_train / np.max(encoded_imgs_train)
-encoded_imgs_test_normalized = encoded_imgs_test / np.max(encoded_imgs_test)
+    encoded_imgs_train_normalized = encoded_imgs_train / np.max(encoded_imgs_train)
+    encoded_imgs_test_normalized = encoded_imgs_test / np.max(encoded_imgs_test)
 
-model = Sequential()
-model.add(Dense(512, activation='relu', input_shape=(encoding_dim,)))
-model.add(Dropout(0.2))
-model.add(Dense(512, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(num_classes, activation='softmax'))
-
-model.summary()
-
-model.compile(loss='categorical_crossentropy',
-              optimizer=RMSprop(),
-              metrics=['accuracy'])
-
-history = model.fit(encoded_imgs_train_normalized, y_train,
-                    batch_size=batch_size,
-                    epochs=epochs,
-                    verbose=1,
-                    validation_data=(encoded_imgs_test_normalized, y_test))
-score = model.evaluate(encoded_imgs_test_normalized, y_test, verbose=0)
-
-print('Test loss:', score[0])
-print('Test accuracy:', score[1])
-plot_traincurve(history.history)
