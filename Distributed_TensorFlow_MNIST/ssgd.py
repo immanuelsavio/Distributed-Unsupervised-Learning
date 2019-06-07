@@ -1,14 +1,9 @@
-"""Synchronous SGD
-"""
-
 from __future__ import print_function
 import tensorflow as tf
 import argparse
 import time
-import os
 from keras.datasets import mnist
 FLAGS = None
-log_dir = '/logdir'
 REPLICAS_TO_AGGREGATE = 2
 
 def main():
