@@ -1,3 +1,4 @@
+from __future__ import print_function
 import keras
 from keras.datasets import mnist
 from keras.models import Sequential
@@ -9,14 +10,17 @@ from keras import backend as K
 from keras.models import Model
 from keras.datasets import mnist
 from keras import regularizers
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import LinearSVC
 from sklearn.metrics import accuracy_score
-
 import numpy as np
 import matplotlib.pyplot as plt
+import tensorflow as tf
+import argparse
+import tensorflow.examples.tutorials.mnist.input_data as input_data
+import time
+
 #Global variable Declarations
 
 
@@ -35,6 +39,7 @@ def plot_traincurve(history):
 
 
 def main():
+
     batch_size = 128
     num_classes = 10
     epochs = 30
