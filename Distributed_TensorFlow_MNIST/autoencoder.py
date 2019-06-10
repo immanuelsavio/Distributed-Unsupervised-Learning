@@ -1,5 +1,4 @@
-import csv
-import keras 
+import keras
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
@@ -18,6 +17,8 @@ from sklearn.metrics import accuracy_score
 
 import numpy as np
 import matplotlib.pyplot as plt
+#Global variable Declarations
+
 
 def plot_traincurve(history):
     colors = {'loss':'r', 'acc':'b', 'val_loss':'m', 'val_acc':'g'}
@@ -33,7 +34,7 @@ def plot_traincurve(history):
     plt.legend(loc='upper left', scatterpoints = 1, frameon=False)
 
 
-def autoencoder():
+def main():
     batch_size = 128
     num_classes = 10
     epochs = 30
@@ -56,7 +57,7 @@ def autoencoder():
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
     # this is the size of our encoded representations
-    encoding_dim = 32  
+    encoding_dim = 32 
 
     # this is our input placeholder
     input_img = Input(shape=(784,))
@@ -94,3 +95,29 @@ def autoencoder():
     encoded_imgs_train_normalized = encoded_imgs_train / np.max(encoded_imgs_train)
     encoded_imgs_test_normalized = encoded_imgs_test / np.max(encoded_imgs_test)
 
+    model = Sequential()
+    model.add(Dense(512, activation='relu', input_shape=(encoding_dim,)))
+    model.add(Dropout(0.2))
+    model.add(Dense(512, activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(Dense(num_classes, activation='softmax'))
+
+    model.summary()
+
+    model.compile(loss='categorical_crossentropy',
+                optimizer=RMSprop(),
+                metrics=['accuracy'])
+
+    history = model.fit(encoded_imgs_train_normalized, y_train,
+                        batch_size=batch_size,
+                        epochs=epochs,
+                        verbose=1,
+                        validation_data=(encoded_imgs_test_normalized, y_test))
+    score = model.evaluate(encoded_imgs_test_normalized, y_test, verbose=0)
+
+    print('Test loss:', score[0])
+    print('Test accuracy:', score[1])
+    plot_traincurve(history.history)
+
+if __name__ == "__main__":
+    main()
