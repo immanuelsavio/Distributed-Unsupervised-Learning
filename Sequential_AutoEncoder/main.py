@@ -3,7 +3,7 @@ from keras.datasets import mnist
 import math
 import matplotlib.pyplot as plt 
 from sklearn.datasets import fetch_openml
-from sklearn.preprocessing import train_test_split
+from sklearn.model_selection import train_test_split
 import numpy as np 
 from optimizers import Adam
 from loss_function import CrossEntropy, SquareLoss
