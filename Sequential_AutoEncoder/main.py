@@ -2,11 +2,14 @@ from __future__ import print_function, division
 from keras.datasets import mnist
 import math
 import matplotlib.pyplot as plt 
+from sklearn.datasets import fetch_openml
+from sklearn.preprocessing import train_test_split
 import numpy as np 
-import progressbar 
 from optimizers import Adam
+from loss_function import CrossEntropy, SquareLoss
+import progressbar
 from layers import Dense, Dropout, Flatten, Activation, Reshape, BatchNormalization
-import NeuralNetwork    
+from NeuralNetwork import NeuralNetwork
 
 class Autoencoder():
     """An Autoencoder with deep fully-connected neural nets.
@@ -60,19 +63,19 @@ class Autoencoder():
 
     def train(self, n_epochs, batch_size=128, save_interval=50):
 
-        mnist = fetch_mldata('MNIST original')
+        mnist = fetch_openml('mnist_784')
 
         X = mnist.data
         y = mnist.target
 
         # Rescale [-1, 1]
         X = (X.astype(np.float32) - 127.5) / 127.5
-
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
         for epoch in range(n_epochs):
 
             # Select a random half batch of images
-            idx = np.random.randint(0, X.shape[0], batch_size)
-            imgs = X[idx]
+            idx = np.random.randint(0, X_train.shape[0], batch_size)
+            imgs = X_train[idx]
 
             # Train the Autoencoder
             loss, _ = self.autoencoder.train_on_batch(imgs, imgs)
@@ -81,8 +84,8 @@ class Autoencoder():
             print ("%d [D loss: %f]" % (epoch, loss))
 
             # If at save interval => save generated image samples
-            if epoch % save_interval == 0:
-                self.save_imgs(epoch, X)
+            #if epoch % save_interval == 0:
+            #    self.save_imgs(epoch, X_train)
 
     def save_imgs(self, epoch, X):
         r, c = 5, 5 # Grid size

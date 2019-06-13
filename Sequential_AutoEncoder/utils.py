@@ -1,6 +1,7 @@
 from __future__ import division
 from itertools import combinations_with_replacement
 import numpy as np
+import progressbar
 import math
 import sys
 

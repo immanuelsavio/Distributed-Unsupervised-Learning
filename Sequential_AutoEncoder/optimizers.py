@@ -1,5 +1,5 @@
 import numpy as np 
-from utils import make_diaognal, normalize
+from utils import make_diagonal, normalize
 
 class SGD():
     def __init__(self, learning_rate = 0.01, momentum = 0):
