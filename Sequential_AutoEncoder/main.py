@@ -12,9 +12,7 @@ from layers import Dense, Dropout, Flatten, Activation, Reshape, BatchNormalizat
 from NeuralNetwork import NeuralNetwork
 
 class Autoencoder():
-    """An Autoencoder with deep fully-connected neural nets.
-    Training Data: MNIST Handwritten Digits (28x28 images)
-    """
+
     def __init__(self):
         self.img_rows = 28
         self.img_cols = 28
