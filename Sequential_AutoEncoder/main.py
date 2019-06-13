@@ -59,6 +59,13 @@ class Autoencoder():
 
         return decoder
 
+    def build_classifier(self, optimizer, loss_function):
+        classifier = NeuralNetwork(optimizer=optimizer, loss=loss_function)
+        classifier.add(Dense(10, input_shape=(self.latent_dim,)))
+        classifier.add(Activation('softmax'))
+
+        return classifier
+
     def train(self, n_epochs, batch_size=128, save_interval=50):
 
         mnist = fetch_openml('mnist_784')
@@ -72,12 +79,16 @@ class Autoencoder():
         for epoch in range(n_epochs):
 
             # Select a random half batch of images
-            idx = np.random.randint(0, X_train.shape[0], batch_size)
-            imgs = X_train[idx]
+            idx_train = np.random.randint(0, X_train.shape[0], batch_size)
+            imgs_train = X_train[idx_train]
+            lab_train = y_train[idx_train]
+            idx_test = np.random.randint(0, X_test.shape[0], batch_size)
+            imgs_test = X_test[idx_test]
+            lab_test = y_test[idx_test]
 
             # Train the Autoencoder
-            loss, _ = self.autoencoder.train_on_batch(imgs, imgs)
-
+            loss, acc = self.autoencoder.train_on_batch(imgs_train, imgs_train)
+            
             # Display the progress
             print ("%d [D loss: %f]" % (epoch, loss))
 
@@ -85,6 +96,7 @@ class Autoencoder():
             #if epoch % save_interval == 0:
             #    self.save_imgs(epoch, X_train)
 
+        
     def save_imgs(self, epoch, X):
         r, c = 5, 5 # Grid size
         # Select a random half batch of images
@@ -110,4 +122,4 @@ class Autoencoder():
 
 if __name__ == '__main__':
     ae = Autoencoder()
-    ae.train(n_epochs=200000, batch_size=64, save_interval=400)
+    ae.train(n_epochs=200, batch_size=64, save_interval=400)

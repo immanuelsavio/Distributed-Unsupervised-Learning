@@ -93,25 +93,8 @@ class Dense(Layer):
 
 
 class RNN(Layer):
-    """A Vanilla Fully-Connected Recurrent Neural Network layer.
+    """A Vanilla Fully-Connected Recurrent Neural Network layer."""
 
-    Parameters:
-    -----------
-    n_units: int
-        The number of hidden states in the layer.
-    activation: string
-        The name of the activation function which will be applied to the output of each state.
-    bptt_trunc: int
-        Decides how many time steps the gradient should be propagated backwards through states
-        given the loss gradient for time step t.
-    input_shape: tuple
-        The expected input shape of the layer. For dense layers a single digit specifying
-        the number of features of the input. Must be specified if it is the first layer in
-        the network.
-
-    Reference:
-    http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-2-implementing-a-language-model-rnn-with-python-numpy-and-theano/
-    """
     def __init__(self, n_units, activation='tanh', bptt_trunc=5, input_shape=None):
         self.input_shape = input_shape
         self.n_units = n_units
@@ -197,21 +180,7 @@ class RNN(Layer):
 class Conv2D(Layer):
     """A 2D Convolution Layer.
 
-    Parameters:
-    -----------
-    n_filters: int
-        The number of filters that will convolve over the input matrix. The number of channels
-        of the output shape.
-    filter_shape: tuple
-        A tuple (filter_height, filter_width).
-    input_shape: tuple
-        The shape of the expected input of the layer. (batch_size, channels, height, width)
-        Only needs to be specified for first layer in the network.
-    padding: string
-        Either 'same' or 'valid'. 'same' results in padding being added so that the output height and width
-        matches the input height and width. For 'valid' no padding is added.
-    stride: int
-        The stride length of the filters during the convolution over the input.
+
     """
     def __init__(self, n_filters, filter_shape, input_shape=None, padding='same', stride=1):
         self.n_filters = n_filters
