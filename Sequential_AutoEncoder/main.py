@@ -18,19 +18,33 @@ class Autoencoder():
         self.img_cols = 28
         self.img_dim = self.img_rows * self.img_cols
         self.latent_dim = 128 # The dimension of the data embedding
+        self.count = 0
+
+        mnist = fetch_openml('mnist_784')
+
+        self.X = mnist.data
+        self.y = mnist.target
+
+        # Rescale [-1, 1]
+        self.X = (self.X.astype(np.float32) - 127.5) / 127.5
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 0.2)
 
         optimizer = Adam(learning_rate=0.0002, b1=0.5)
         loss_function = SquareLoss
 
         self.encoder = self.build_encoder(optimizer, loss_function)
         self.decoder = self.build_decoder(optimizer, loss_function)
+        self.classifier = self.build_classifier(optimizer, loss_function)
 
         self.autoencoder = NeuralNetwork(optimizer=optimizer, loss=loss_function)
         self.autoencoder.layers.extend(self.encoder.layers)
         self.autoencoder.layers.extend(self.decoder.layers)
+        self.autoencoder2 = self.autoencoder
+        self.autoencoder_final = self.autoencoder
 
         print ()
         self.autoencoder.summary(name="Variational Autoencoder")
+
 
     def build_encoder(self, optimizer, loss_function):
 
@@ -60,66 +74,74 @@ class Autoencoder():
         return decoder
 
     def build_classifier(self, optimizer, loss_function):
+           
         classifier = NeuralNetwork(optimizer=optimizer, loss=loss_function)
-        classifier.add(Dense(10, input_shape=(self.latent_dim,)))
+        classifier.add(Dense(10, input_shape=(self.img_dim,)))
         classifier.add(Activation('softmax'))
 
         return classifier
 
-    def train(self, n_epochs, batch_size=128, save_interval=50):
+    def update_weights(a,b,c):
+        for layer, layer1, layer2 in reversed(a.layers), reversed(b.layers), reversed(c.layers):
+            w1 = layer.get_weight_layer()
+            w2 = layer1.get_weight_layer()
+            w3 = np.average([w1,w2])
+            layer2.update_weight_final(w3)
+            layer1.update_weight_final(w3)
+            layer.update_weight_final(w3)
 
-        mnist = fetch_openml('mnist_784')
 
-        X = mnist.data
-        y = mnist.target
-
-        # Rescale [-1, 1]
-        X = (X.astype(np.float32) - 127.5) / 127.5
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+    def train(self, n_epochs, batch_size=128):
+        mutex = 0
+        chance = 0
         for epoch in range(n_epochs):
-
+            if(chance == 2):
+                chance = 0
             # Select a random half batch of images
-            idx_train = np.random.randint(0, X_train.shape[0], batch_size)
-            imgs_train = X_train[idx_train]
-            lab_train = y_train[idx_train]
-            idx_test = np.random.randint(0, X_test.shape[0], batch_size)
-            imgs_test = X_test[idx_test]
-            lab_test = y_test[idx_test]
+            idx_train = np.random.randint(0, self.X_train.shape[0], batch_size)
+            imgs_train = self.X_train[idx_train]
+            lab_train = self.y_train[idx_train]
+
 
             # Train the Autoencoder
-            loss, acc = self.autoencoder.train_on_batch(imgs_train, imgs_train)
-            
+            while(mutex == 0):
+                loss, acc = self.autoencoder.train_on_batch(imgs_train, imgs_train)
+                mutex = 1
+                chance = chance + 1
+            while(mutex == 1):
+                chance = chance + 1 
+                loss, acc = self.autoencoder2.train_on_batch(imgs_train, imgs_train)
+                mutex = 0
+
+            if (mutex == 2):
+                self.update_weights(self.autoencoder, self.autoencoder2, self.autoencoder_final)
             # Display the progress
             print ("%d [D loss: %f]" % (epoch, loss))
 
-            # If at save interval => save generated image samples
-            #if epoch % save_interval == 0:
-            #    self.save_imgs(epoch, X_train)
+            
 
-        
-    def save_imgs(self, epoch, X):
-        r, c = 5, 5 # Grid size
-        # Select a random half batch of images
-        idx = np.random.randint(0, X.shape[0], r*c)
-        imgs = X[idx]
-        # Generate images and reshape to image shape
-        gen_imgs = self.autoencoder.predict(imgs).reshape((-1, self.img_rows, self.img_cols))
+    def train_classifier (self, n_epochs=5, batch_size=32):
 
-        # Rescale images 0 - 1
-        gen_imgs = 0.5 * gen_imgs + 0.5
+        classifier = self.autoencoder.set_trainable(True)
+        classifier = self.autoencoder.layers.extend(self.classifier.layers)
+        optimizer = Adam(learning_rate=0.0002, b1=0.5)
+        loss_function = SquareLoss
 
-        fig, axs = plt.subplots(r, c)
-        plt.suptitle("Autoencoder")
-        cnt = 0
-        for i in range(r):
-            for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt,:,:], cmap='gray')
-                axs[i,j].axis('off')
-                cnt += 1
-        fig.savefig("ae_%d.png" % epoch)
-        plt.close()
+        self.build_classifier(optimizer, loss_function)
+        for epoch in range(n_epochs):
+            idx_train = np.random.randint(0, self.X_train.shape[0], batch_size)
+            imgs_train = self.X_train[idx_train]
+            lab_train = self.y_train[idx_train]
+
+            idx_test = np.random.randint(0, self.X_test.shape[0], batch_size)
+            imgs_test = self.X_test[idx_test]
+            lab_test = self.y_test[idx_test]
+
+            loss, acc = self.autoencoder.train_on_batch(imgs_train, lab_train)
+            print ("%d [D loss: %f] and accuracy: %f" % (epoch, loss, acc))
 
 
 if __name__ == '__main__':
     ae = Autoencoder()
-    ae.train(n_epochs=200, batch_size=64, save_interval=400)
+    ae.train(n_epochs=200000, batch_size=64)
+    #ae.train_classifier(n_epochs= 5, batch_size= 32)

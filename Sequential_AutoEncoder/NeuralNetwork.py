@@ -98,6 +98,13 @@ class NeuralNetwork():
         for layer in reversed(self.layers):
             loss_grad = layer.backward_pass(loss_grad)
 
+    def update_weights(a,b,c):
+        for layer, layer1, layer2 in reversed(a.layers), reversed(b.layers), reversed(c.layers):
+            w1 = layer.get_weight_layer()
+            w2 = layer1.get_weight_layer()
+            w3 = np.average([w1,w2])
+            layer2.update_weight_final(w3)
+
     def summary(self, name="Model Summary"):
         # Print model name
         print (AsciiTable([[name]]).table)
