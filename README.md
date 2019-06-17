@@ -12,7 +12,7 @@ Deep learning is a subset of machine learning. We can think of deep learning as 
 **Example**: In facial recognition, an image may be the input, and the name of the character on the image the output. <br />
 
 <p align="center">
-  <img src="https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/blob/master/images/cover.png" alt="Size Limit CLI" width="738">
+  <img src="./images/cover.png" alt="Size Limit CLI" width="738">
 </p>
 
 The growth of Deep Learning and Big Data has made it difficult for the modern systems to process so huge data with minimum time. So the concept of distributed deep learning was brought up. 
@@ -27,7 +27,7 @@ There are several reasons for the sudden populatrity of Distributed Deep Learnin
 * Computation : The huge models with TBs of data require huge computations and the deskotp PCs and workstations itself cannot provide the power to efficiently do the calculations. This is one of the most important reasons to call distributed deep learning into practice <br />
 
 <p align="center">
-  <img src="https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/blob/master/images/image5.svg" alt="Size Limit CLI" width="738">
+  <img src="./images/image5.svg" alt="Size Limit CLI" width="738">
 </p>
 
 We will be using Autoencoders maily for the implimentation
@@ -37,13 +37,15 @@ We will be using Autoencoders maily for the implimentation
 Autoencoders are a fairly simple deep learning model. Autoencoders are deep neural networks used to reproduce the input at the output layer i.e. the number of neurons in the output layer is exactly the same as the number of neurons in the input layer. Autoencoders are a fairly simple deep learning model. Autoencoders are deep neural networks used to reproduce the input at the output layer i.e. the number of neurons in the output layer is exactly the same as the number of neurons in the input layer. 
 
 <p align="center">
-  <img src="https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/blob/master/images/autoencoders.png" alt="Size Limit CLI" width="400">
+  <img src="./autoencoders.png" alt="Size Limit CLI" width="400">
 </p>
 
 In this repository, Distributed deep learning is being implimented using Autoencoders with and without parameter averaging, distributed tensorflow and also using sequential encoder with parameter averaging (under development). 
 ### Contents of this repository:
 
-* Auto Encoder with Tensorflow - It's a regular Autoencoder model with TensorFlow for beginners. If you are good with autoencoders you can skip this. [link](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Distributed_TensorFlow_MNIST)<br />
+* Stochastic Gradient Descent : The method widely used in distributed deep learning for gradient calculation is the Stochastic Gradient Descent. This is a program from scratch for SGD.[(link)](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Stochastic_Gradient_Descent)
 
-* Auto
+* Auto Encoder with Tensorflow : It's a regular Autoencoder model with TensorFlow for beginners. If you are good with autoencoders you can skip this. [(link)](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Distributed_TensorFlow_MNIST)<br />
+
+* Distributed TensorFlow : Implimentation of Autoencoders with parameter server and parameter averaging using the distributed tensorflow model with 2 worker servers and 1 parameter server.[(link)](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Distributed_TensorFlow_MNIST)
 
