@@ -143,5 +143,5 @@ class Autoencoder():
 
 if __name__ == '__main__':
     ae = Autoencoder()
-    ae.train(n_epochs=200000, batch_size=64)
+    ae.train(n_epochs=200000, batch_size=128)
     #ae.train_classifier(n_epochs= 5, batch_size= 32)
