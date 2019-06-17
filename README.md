@@ -49,7 +49,7 @@ In this repository, Distributed deep learning is being implimented using Autoenc
 
 * **Distributed TensorFlow** : Implimentation of Autoencoders with parameter server and parameter averaging using the distributed tensorflow model with 2 worker servers and 1 parameter server.[(link)](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Distributed_TensorFlow_MNIST)
 
-* **Sequential Autoencoder** : This is the implimentation of the parameter server based autoecoder with sequential based algorithm using Mutex locks. Here, two autoencoders are used and run one after the other on minibatches and the parameter is averaged in every run and stored and redistributed. Also this implimentation is done from scratch i.e. no external libraries are used for this.[(link)](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Sequential_AutoEncoder)]
+* **Sequential Autoencoder** : This is the implimentation of the parameter server based autoecoder with sequential based algorithm using Mutex locks. Here, two autoencoders are used and run one after the other on minibatches and the parameter is averaged in every run and stored and redistributed. Also this implimentation is done from scratch i.e. no external libraries are used for this.[(link)](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Sequential_AutoEncoder)
 
 * **Research Papers** : Important research papers on the topic have been added to this folder for reference. Going through this papers will give a better understanding of the project[(link)](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Research_Papers)
 
