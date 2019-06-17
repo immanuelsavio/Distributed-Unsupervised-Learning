@@ -43,5 +43,7 @@ Autoencoders are a fairly simple deep learning model. Autoencoders are deep neur
 In this repository, Distributed deep learning is being implimented using Autoencoders with and without parameter averaging, distributed tensorflow and also using sequential encoder with parameter averaging (under development). 
 ### Contents of this repository:
 
-* Auto Encoder with Tensorflow - It's a regular Autoencoder model with TensorFlow for beginners. If you are good with autoencoders you can skip this.
+* Auto Encoder with Tensorflow - It's a regular Autoencoder model with TensorFlow for beginners. If you are good with autoencoders you can skip this. [link](https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/tree/master/Distributed_TensorFlow_MNIST)<br />
+
+* Auto
 
