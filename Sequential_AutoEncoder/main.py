@@ -3,6 +3,7 @@ from keras.datasets import mnist
 import math
 import matplotlib.pyplot as plt 
 from sklearn.datasets import fetch_openml
+from sklearn.cluster import MeanShift
 from sklearn.model_selection import train_test_split
 import numpy as np 
 from optimizers import Adam
@@ -81,14 +82,19 @@ class Autoencoder():
 
         return classifier
 
-    def update_weights(a,b,c):
-        for layer, layer1, layer2 in reversed(a.layers), reversed(b.layers), reversed(c.layers):
-            w1 = layer.get_weight_layer()
-            w2 = layer1.get_weight_layer()
-            w3 = np.average([w1,w2])
-            layer2.update_weight_final(w3)
-            layer1.update_weight_final(w3)
-            layer.update_weight_final(w3)
+    def update_weights(self,a,b,c):
+        print("Entering this part")
+        print(len(a.layers))
+        for layer, layer1, layer2 in range (0,len(a.layers)):
+            w1 = a.layers.get_weight_layer()
+            print(w1[layer])
+        #    w2 = layer1.get_weight_layer()
+        #    w3 = np.array([w1,w2])
+        #    w3 = MeanShift(bandwidth = 10).fit(w3)
+        #    print(w3)
+            #layer2.update_weight_final(w3)
+            #layer1.update_weight_final(w3)
+            #layer.update_weight_final(w3)
 
 
     def train(self, n_epochs, batch_size=128):
@@ -108,13 +114,16 @@ class Autoencoder():
                 loss, acc = self.autoencoder.train_on_batch(imgs_train, imgs_train)
                 mutex = 1
                 chance = chance + 1
+                print("Mutex is " , mutex)
             while(mutex == 1):
                 chance = chance + 1 
                 loss, acc = self.autoencoder2.train_on_batch(imgs_train, imgs_train)
                 mutex = 0
-
-            if (mutex == 2):
+                print("Mutex is " , mutex)
+            if (chance == 2):
                 self.update_weights(self.autoencoder, self.autoencoder2, self.autoencoder_final)
+                print("Mutex is " , mutex)
+
             # Display the progress
             print ("%d [D loss: %f]" % (epoch, loss))
 
@@ -143,5 +152,5 @@ class Autoencoder():
 
 if __name__ == '__main__':
     ae = Autoencoder()
-    ae.train(n_epochs=200000, batch_size=128)
+    ae.train(n_epochs=10000, batch_size=128)
     #ae.train_classifier(n_epochs= 5, batch_size= 32)
