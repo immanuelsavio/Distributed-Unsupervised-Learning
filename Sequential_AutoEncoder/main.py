@@ -85,9 +85,12 @@ class Autoencoder():
     def update_weights(self,a,b,c):
         print("Entering this part")
         print(len(a.layers))
-        for layer, layer1, layer2 in range (0,len(a.layers)):
-            w1 = a.layers.get_weight_layer()
-            print(w1[layer])
+        wt = []
+        for i in a.layers:
+            print(i)
+
+
+            
         #    w2 = layer1.get_weight_layer()
         #    w3 = np.array([w1,w2])
         #    w3 = MeanShift(bandwidth = 10).fit(w3)

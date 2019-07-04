@@ -98,6 +98,7 @@ class Dense(Layer):
         return (self.n_units, )
 
 
+
 class RNN(Layer):
     """A Vanilla Fully-Connected Recurrent Neural Network layer."""
 
