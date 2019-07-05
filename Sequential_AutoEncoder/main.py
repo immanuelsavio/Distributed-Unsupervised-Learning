@@ -88,6 +88,7 @@ class Autoencoder():
         wt = []
         for i in a.layers:
             print(i)
+            print(i.get_weight_layer()[0][0])
 
 
             
