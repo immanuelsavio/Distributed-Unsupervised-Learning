@@ -20,7 +20,7 @@ from keras.datasets import mnist
 
 
 
-(X_train, _), (X_test, _) = mnist.load_data()
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
 X_train = X_train.astype('float32')/255
 X_test = X_test.astype('float32')/255
 X_train = X_train.reshape(len(X_train), np.prod(X_train.shape[1:]))
@@ -50,22 +50,32 @@ train_X,valid_X,train_ground,valid_ground = train_test_split(X_train,
 input_img = Input(shape = (784,))
 num_classes = 10
 
+def Encoder_part(input_img):
 
-encoded = Dense(units=512, activation='relu')(input_img)
-encoded = Dense(units=256, activation='relu')(encoded)
-encoded = Dense(units=128, activation='relu')(encoded)
-encoded = Dense(units=64, activation='relu')(encoded)
-encoded = Dense(units=32, activation='relu')(encoded)
+    encoded = Dense(units=512, activation='relu')(input_img)
+    encoded = Dense(units=256, activation='relu')(encoded)
+    encoded = Dense(units=128, activation='relu')(encoded)
+    encoded = Dense(units=64, activation='relu')(encoded)
+    encoded = Dense(units=32, activation='relu')(encoded)
 
-decoded = Dense(units=64, activation='relu')(encoded)
-decoded = Dense(units=128, activation='relu')(decoded)
-decoded = Dense(units=256, activation='relu')(decoded)
-decoded = Dense(units=512, activation='relu')(decoded)
-decoded = Dense(units=784, activation='relu')(decoded)
+    return encoded
 
-autoencoder=Model(input_img, decoded)
-encoder = Model(input_img, encoded)
+def Decoder_part(encoded):
+        
+    decoded = Dense(units=64, activation='relu')(encoded)
+    decoded = Dense(units=128, activation='relu')(decoded)
+    decoded = Dense(units=256, activation='relu')(decoded)
+    decoded = Dense(units=512, activation='relu')(decoded)
+    decoded = Dense(units=784, activation='relu')(decoded)
+    
+    return decoded
+
+
+autoencoder=Model(input_img, Decoder_part(Encoder_part(input_img)))
+encoder = Model(input_img, Encoder_part(input_img))
+
 autoencoder.summary()
+
 
 autoencoder.compile(loss='mean_squared_error', optimizer = SGD())
 autoencoder_train = autoencoder.fit(train_X, train_ground, batch_size=batch_size,epochs=epochs,verbose=1,validation_data=(valid_X, valid_ground))
@@ -79,3 +89,18 @@ plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
 plt.show()
+
+autoencoder.save_weights('autoencoder.h5')
+
+x = autoencoder.get_weights()
+print(x)
+
+train_Y_one_hot = to_categorical(y_train)
+test_Y_one_hot = to_categorical(y_test)
+print('Original label:', y_train[0])
+print('After conversion to one-hot:', train_Y_one_hot[0])
+
+train_X,valid_X,train_label,valid_label = train_test_split(X_train,train_Y_one_hot,test_size=0.2,random_state=13)
+
+train_Y_one_hot = to_categorical(y_train)
+test_Y_one_hot = to_categorical(y_test)
