@@ -61,7 +61,7 @@ def Encoder_part(input_img):
     return encoded
 
 def Decoder_part(encoded):
-        
+
     decoded = Dense(units=64, activation='relu')(encoded)
     decoded = Dense(units=128, activation='relu')(decoded)
     decoded = Dense(units=256, activation='relu')(decoded)
@@ -104,3 +104,23 @@ train_X,valid_X,train_label,valid_label = train_test_split(X_train,train_Y_one_h
 
 train_Y_one_hot = to_categorical(y_train)
 test_Y_one_hot = to_categorical(y_test)
+
+train_X,valid_X,train_label,valid_label = train_test_split(X_train,train_Y_one_hot,test_size=0.2,random_state=13)
+
+def fc(enco):
+    flat = enco
+    den = Dense(128, activation='relu')(flat)
+    out = Dense(num_classes, activation='softmax')(den)
+    return out
+
+encode = encoder(input_img)
+full_model = Model(input_img,fc(encode))
+
+#5 hidden layers + 1 input layer
+for l1,l2 in zip(full_model.layers[:6],autoencoder.layers[0:6]):
+    l1.set_weights(l2.get_weights())
+
+autoencoder.get_weights()[0][1]
+
+full_model.get_weights()[0][1]
+#Both the layer weights should match
