@@ -165,3 +165,13 @@ test_eval = full_model.evaluate(X_test, test_Y_one_hot, verbose=0)
 
 print('Test loss:', test_eval[0])
 print('Test accuracy:', test_eval[1])
+
+predicted_classes = full_model.predict(X_test)
+predicted_classes = np.argmax(np.round(predicted_classes),axis=1)
+predicted_classes.shape, y_test.shape
+
+correct = np.where(predicted_classes==y_test)[0]
+print("Found %d correct labels" % len(correct))
+
+incorrect = np.where(predicted_classes!=y_test)[0]
+print ("Found %d incorrect labels" % len(incorrect))
