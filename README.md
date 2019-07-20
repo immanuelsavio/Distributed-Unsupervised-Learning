@@ -3,7 +3,7 @@
 <img src="https://github.com/immanuelsavio/Distributed-Unsupervised-Learning/blob/master/images/isiLogo.png" align="right"
      title="Indian Statistical Institute" width="150" height="178">
      
-This is a code repository for the codes for distributed deep learning architecture for unsupervised learning using autoencoders on the MNIST dataset. This contains three parts and will be updated with more later. This repository is a part of my research internship in the **Machine Intelligence Unit, Indian Statistical Institute, Kolkata **[(link)](https://miu.isical.ac.in/content/machine-intelligence-unit)
+This is a code repository for the codes for distributed deep learning architecture for unsupervised learning using autoencoders on the MNIST dataset. This contains three parts and will be updated with more later. This repository is a part of my research internship in the **Machine Intelligence Unit, Indian Statistical Institute, Kolkata** [(link)](https://miu.isical.ac.in/content/machine-intelligence-unit)
 
 ### What is Distributed Deep Learning
 
