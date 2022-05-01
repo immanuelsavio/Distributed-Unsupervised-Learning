@@ -34,7 +34,7 @@ We will be using Autoencoders maily for the implimentation
 
 ### Autoencoders
 
-Autoencoders are a fairly simple deep learning model. Autoencoders are deep neural networks used to reproduce the input at the output layer i.e. the number of neurons in the output layer is exactly the same as the number of neurons in the input layer. Autoencoders are a fairly simple deep learning model. Autoencoders are deep neural networks used to reproduce the input at the output layer i.e. the number of neurons in the output layer is exactly the same as the number of neurons in the input layer. 
+Autoencoders are a fairly simple deep learning model. Autoencoders are deep neural networks used to reproduce the input at the output layer i.e. the number of neurons in the output layer is exactly the same as the number of neurons in the input layer. Autoencoders are deep neural networks used to reproduce the input at the output layer i.e. the number of neurons in the output layer is exactly the same as the number of neurons in the input layer. 
 
 <p align="center">
   <img src="./images/autoencoders.png" alt="AutoEncoder Architecture" width="400">
